@@ -20,11 +20,11 @@ public class Partida {
     private Integer placarSeuTime;
     private Integer placarOponente;
 
-    // Relacionamento 1:N - Uma partida tem vários rounds
+    // Relacionamento 1:N
     @OneToMany(mappedBy = "partida", cascade = CascadeType.ALL)
     private List<Round> rounds;
 
-    // Relacionamento 1:N - Uma partida tem várias estatísticas de jogadores
+    // Relacionamento 1:N
     @OneToMany(mappedBy = "partida", cascade = CascadeType.ALL)
     private List<EstatisticaJogador> estatisticas;
 }

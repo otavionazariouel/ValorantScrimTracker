@@ -14,5 +14,5 @@ public class Jogador {
 
     private String nickname;
     private String tag;
-    private String funcao; // Ex: Duelista, Iniciador, Controlador, Sentinela
+    private String funcao;
 }

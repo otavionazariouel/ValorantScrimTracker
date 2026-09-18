@@ -12,12 +12,12 @@ public class EstatisticaJogador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relacionamento N:1 - Várias estatísticas pertencem a uma partida
+    // Relacionamento N:1
     @ManyToOne
     @JoinColumn(name = "partida_id")
     private Partida partida;
 
-    // Relacionamento N:1 - Várias estatísticas pertencem a um jogador
+    // Relacionamento N:1
     @ManyToOne
     @JoinColumn(name = "jogador_id")
     private Jogador jogador;

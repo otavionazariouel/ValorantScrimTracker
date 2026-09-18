@@ -12,13 +12,13 @@ public class Round {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relacionamento N:1 - Vários rounds pertencem a uma partida
+    // Relacionamento N:1
     @ManyToOne
     @JoinColumn(name = "partida_id")
     private Partida partida;
 
     private Integer numeroRound;
-    private String lado;       // Ataque ou Defesa
-    private String vencedor;   // Nosso Time ou Oponente
-    private String tipoCompra; // Eco, Forçado, Armado
+    private String lado;
+    private String vencedor;
+    private String tipoCompra;
 }
