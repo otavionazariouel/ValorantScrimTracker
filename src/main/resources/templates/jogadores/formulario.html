@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cadastro de Jogador - Valorant Scrim Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<!-- BARRA SUPERIOR -->
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Valorant Scrim Tracker</a>
+        <div>
+            <a class="btn btn-outline-light btn-sm fw-bold" th:href="@{/jogadores}">Jogadores</a>
+            <a class="btn btn-outline-light btn-sm" th:href="@{/partidas}">Partidas</a>
+        </div>
+    </div>
+</nav>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="container" style="max-width: 600px;">
+
+    <h2 class="mb-4 text-center">Cadastro de Jogador</h2>
+
+    <!-- FORMULÁRIO -->
+    <form th:action="@{/jogadores/salvar}" th:object="${jogador}" method="post" class="card p-4 shadow-sm">
+
+        <!-- Campo oculto para guardar o ID -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- CAMPO NICKNAME -->
+        <div class="mb-3">
+            <label for="nickname" class="form-label fw-bold">Nickname</label>
+            <input type="text" id="nickname" th:field="*{nickname}" class="form-control" placeholder="Ex: Sacy" required />
+        </div>
+
+        <!-- CAMPO TAG -->
+        <div class="mb-3">
+            <label for="tag" class="form-label fw-bold">Tag</label>
+            <input type="text" id="tag" th:field="*{tag}" class="form-control" placeholder="Ex: #BR1" required />
+        </div>
+
+        <!-- CAMPO FUNÇÃO -->
+        <div class="mb-4">
+            <label for="funcao" class="form-label fw-bold">Função Principal</label>
+            <select id="funcao" th:field="*{funcao}" class="form-select" required>
+                <option value="" disabled selected>Selecione uma função...</option>
+                <option value="Duelista">Duelista</option>
+                <option value="Iniciador">Iniciador</option>
+                <option value="Controlador">Controlador</option>
+                <option value="Sentinela">Sentinela</option>
+                <option value="Flex">Flex</option>
+            </select>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="d-flex justify-content-between">
+            <a th:href="@{/jogadores}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success px-4">Salvar</button>
+        </div>
+
+    </form>
+
+</div>
 
 </body>
 </html>
