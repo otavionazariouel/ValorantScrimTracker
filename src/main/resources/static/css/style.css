@@ -1,0 +1,200 @@
+/* ==========================================================================
+   VALORANT SCRIM TRACKER - THEME CSS
+   ========================================================================== */
+
+:root {
+    --val-bg: #0f1923;
+    --val-surface: #18222c;
+    --val-surface-card: #1f2a35;
+    --val-red: #ff4655;
+    --val-red-hover: #d93845;
+    --val-text: #ece8e1;
+    --val-text-muted: #768089;
+    --val-border: rgba(255, 255, 255, 0.08);
+}
+
+/* Estilo Geral */
+body {
+    background-color: var(--val-bg) !important;
+    color: var(--val-text) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* Navbar */
+nav.navbar {
+    background-color: #0b1118 !important;
+    border-bottom: 2px solid var(--val-red);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--val-red) !important;
+}
+
+/* Cards e Formulários */
+.card {
+    background-color: var(--val-surface) !important;
+    border: 1px solid var(--val-border) !important;
+    border-top: 3px solid var(--val-red) !important;
+    border-radius: 8px !important;
+    color: var(--val-text) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Campos de Entrada (Inputs e Selects) */
+.form-control, .form-select {
+    background-color: var(--val-bg) !important;
+    border: 1px solid #2a3744 !important;
+    color: var(--val-text) !important;
+    border-radius: 4px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--val-red) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 70, 85, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.form-control::placeholder {
+    color: var(--val-text-muted) !important;
+}
+
+/* ==========================================================================
+   CORREÇÃO DE TABELAS - TEMA ESCURO VALORANT
+   ========================================================================== */
+
+.table {
+    --bs-table-bg: #18222c !important;
+    --bs-table-color: #ece8e1 !important;
+    --bs-table-border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #ece8e1 !important;
+}
+
+/* Força o fundo escuro em todas as linhas e células */
+.table td, .table th {
+    background-color: #18222c !important;
+    color: #ece8e1 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Destaque do cabeçalho da tabela */
+.table thead th {
+    background-color: #0b1118 !important;
+    border-bottom: 2px solid var(--val-red) !important;
+    color: var(--val-red) !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+/* Efeito ao passar o mouse por cima da linha */
+.table-hover tbody tr:hover td {
+    background-color: rgba(255, 70, 85, 0.15) !important;
+    color: #ffffff !important;
+}
+
+/* Botões */
+.btn-primary, .btn-success {
+    background-color: var(--val-red) !important;
+    border-color: var(--val-red) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover, .btn-success:hover {
+    background-color: var(--val-red-hover) !important;
+    border-color: var(--val-red-hover) !important;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: #2b3744 !important;
+    border-color: #2b3744 !important;
+    color: var(--val-text) !important;
+}
+
+.btn-secondary:hover {
+    background-color: #3b4a5a !important;
+}
+
+.btn-warning {
+    background-color: #eab308 !important;
+    border-color: #eab308 !important;
+    color: #0f1923 !important;
+    font-weight: 600;
+}
+
+.btn-danger {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+}
+
+/* Títulos */
+h2 {
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.hero-section {
+    background: linear-gradient(135deg, #0b1118 0%, #18222c 100%);
+    border: 1px solid var(--val-border);
+    border-left: 5px solid var(--val-red);
+    border-radius: 8px;
+    padding: 3.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.hero-title span {
+    color: var(--val-red);
+}
+
+.hero-subtitle {
+    color: var(--val-text-muted);
+    font-size: 1.15rem;
+    max-width: 650px;
+}
+
+/* Cards de Acesso Rápido */
+.feature-card {
+    background-color: var(--val-surface) !important;
+    border: 1px solid var(--val-border) !important;
+    border-radius: 8px !important;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--val-red) !important;
+    box-shadow: 0 12px 25px rgba(255, 70, 85, 0.2) !important;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--val-red);
+}
+
+.badge-valorant {
+    background-color: rgba(255, 70, 85, 0.15);
+    color: var(--val-red);
+    border: 1px solid var(--val-red);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}

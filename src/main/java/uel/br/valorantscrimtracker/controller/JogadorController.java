@@ -28,6 +28,13 @@ public class JogadorController {
         return "jogadores/formulario";
     }
 
+    @GetMapping("/editar/{id}")
+    public String exibirFormularioEdicao(@PathVariable Long id, Model model) {
+        Jogador jogador = jogadorService.buscarPorId(id);
+        model.addAttribute("jogador", jogador);
+        return "jogadores/formulario";
+    }
+
     @PostMapping("/salvar")
     public String salvarJogador(@ModelAttribute Jogador jogador) {
         jogadorService.salvar(jogador);
