@@ -37,6 +37,7 @@ public class PartidaService {
     }
 
     public void deletarPorId(Long id) {
-        partidaRepository.deleteById(id);
+        Partida partida = buscarPorId(id); // Se não encontrar, lança a exceção "Partida não encontrada"
+        partidaRepository.delete(partida);
     }
 }

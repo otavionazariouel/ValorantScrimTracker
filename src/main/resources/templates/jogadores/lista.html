@@ -10,6 +10,12 @@
 </head>
 <body>
 
+<!-- Exibe o alerta vermelho somente se existir uma mensagemErro -->
+<div th:if="${mensagemErro}" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <span th:text="${mensagemErro}">Mensagem de erro aqui</span>
+</div>
+
 <!-- BARRA SUPERIOR -->
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container">
