@@ -198,3 +198,24 @@ h2 {
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
+
+@font-face {
+    font-family: 'ValorantFont';
+    src: url('Valorant.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.navbar-brand {
+    font-family: 'ValorantFont', sans-serif !important;
+    letter-spacing: 2px;
+    font-size: 2.2rem !important;
+}
+
+.text-val-red {
+    color: var(--val-red);
+}
+
+.text-val-white {
+    color: #ECE8E1;
+}

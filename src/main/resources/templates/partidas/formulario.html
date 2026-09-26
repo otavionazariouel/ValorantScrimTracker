@@ -1,10 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cadastro de Partida - Valorant Scrim Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Favicon na aba do navegador -->
+    <link rel="icon" type="image/svg+xml" th:href="@{/css/favicon.svg}">
 </head>
 <body>
+
+<!-- BARRA SUPERIOR -->
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <span class="text-val-red">VALORANT</span>
+            <span class="text-val-white">SCRIM TRACKER</span>
+        </a>
+        <div>
+            <a class="btn btn-outline-light btn-sm" th:href="@{/jogadores}">Jogadores</a>
+            <a class="btn btn-outline-light btn-sm fw-bold" th:href="@{/partidas}">Partidas</a>
+        </div>
+    </div>
+</nav>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="container" style="max-width: 600px;">
+
+    <h2 class="mb-4 text-center" th:text="${partida.id == null ? 'Cadastro de Partida' : 'Edição de Partida'}">Cadastro de Partida</h2>
+
+    <!-- FORMULÁRIO -->
+    <form th:action="@{/partidas/salvar}" th:object="${partida}" method="post" class="card p-4 shadow-sm">
+
+        <!-- Campo oculto para guardar o ID -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- CAMPO DATA DA PARTIDA -->
+        <div class="mb-3">
+            <label for="dataPartida" class="form-label fw-bold">Data da Partida</label>
+            <input type="date" id="dataPartida" th:field="*{dataPartida}" class="form-control" required />
+        </div>
+
+        <!-- CAMPO MAPA -->
+        <div class="mb-3">
+            <label for="mapa" class="form-label fw-bold">Mapa</label>
+            <select id="mapa" th:field="*{mapa}" class="form-select" required>
+                <option value="" disabled selected>Selecione um mapa...</option>
+                <option value="Abyss">Abyss</option>
+                <option value="Ascent">Ascent</option>
+                <option value="Bind">Bind</option>
+                <option value="Breeze">Breeze</option>
+                <option value="Haven">Haven</option>
+                <option value="Icebox">Icebox</option>
+                <option value="Lotus">Lotus</option>
+                <option value="Pearl">Pearl</option>
+                <option value="Split">Split</option>
+                <option value="Sunset">Sunset</option>
+            </select>
+        </div>
+
+        <!-- CAMPO OPONENTE -->
+        <div class="mb-3">
+            <label for="oponente" class="form-label fw-bold">Time Oponente</label>
+            <input type="text" id="oponente" th:field="*{oponente}" class="form-control" placeholder="Ex: LOUD" required />
+        </div>
+
+        <!-- PLACARES SEU TIME E OPONENTE -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="placarSeuTime" class="form-label fw-bold">Nosso Placar</label>
+                <input type="number" id="placarSeuTime" th:field="*{placarSeuTime}" class="form-control" placeholder="Ex: 13" min="0" required />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="placarOponente" class="form-label fw-bold">Placar Oponente</label>
+                <input type="number" id="placarOponente" th:field="*{placarOponente}" class="form-control" placeholder="Ex: 9" min="0" required />
+            </div>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="d-flex justify-content-between mt-3">
+            <a th:href="@{/partidas}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success px-4">Salvar</button>
+        </div>
+
+    </form>
+
+</div>
 
 </body>
 </html>
