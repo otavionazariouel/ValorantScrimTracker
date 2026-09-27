@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uel.br.valorantscrimtracker.model.Partida;
+import uel.br.valorantscrimtracker.service.JogadorService;
 import uel.br.valorantscrimtracker.service.PartidaService;
 
 import java.util.List;
@@ -16,9 +17,11 @@ import java.util.List;
 public class PartidaController {
 
     private final PartidaService partidaService;
+    private final JogadorService jogadorService;
 
-    public PartidaController(PartidaService partidaService) {
+    public PartidaController(PartidaService partidaService, JogadorService jogadorService) {
         this.partidaService = partidaService;
+        this.jogadorService = jogadorService;
     }
 
     @GetMapping
@@ -64,6 +67,7 @@ public class PartidaController {
     public String verDetalhes(@PathVariable Long id, Model model) {
         Partida partida = partidaService.buscarPorId(id);
         model.addAttribute("partida", partida);
+        model.addAttribute("jogadores", jogadorService.listarTodos());
         return "partidas/detalhes";
     }
 
