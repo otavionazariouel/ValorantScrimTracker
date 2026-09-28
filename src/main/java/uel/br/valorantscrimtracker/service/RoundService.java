@@ -15,6 +15,10 @@ public class RoundService {
         this.roundRepository = roundRepository;
     }
 
+    public boolean existeRoundNaPartida(Long partidaId, Integer numeroRound) {
+        return roundRepository.existsByPartidaIdAndNumeroRound(partidaId, numeroRound);
+    }
+
     public Round salvar(Round round) {
         return roundRepository.save(round);
     }

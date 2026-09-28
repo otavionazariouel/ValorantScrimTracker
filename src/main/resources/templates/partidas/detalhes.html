@@ -28,6 +28,12 @@
 
 <div class="container mb-5">
 
+    <!-- MENSAGEM DE SUCESSO (Exibida ao adicionar ou excluir rounds/estatísticas) -->
+    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert" th:if="${sucesso != null}">
+        <span th:text="${sucesso}"></span>
+        <button type="button" class="btn-close" onclick="this.closest('.alert').remove()" aria-label="Close"></button>
+    </div>
+
     <!-- RESUMO DA PARTIDA -->
     <div class="card p-4 mb-4">
         <div class="d-flex justify-content-between align-items-center">
@@ -47,9 +53,14 @@
     <div class="card p-4 mb-4">
         <h3 class="mb-3 text-val-red">Estatísticas dos Jogadores</h3>
 
+        <!-- Alerta de erro de Estatística duplicada -->
+        <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert" th:if="${erroEstatistica}">
+            <span th:text="${erroEstatistica}"></span>
+            <button type="button" class="btn-close" onclick="this.closest('.alert').remove()" aria-label="Close"></button>
+        </div>
+
         <!-- Formulário para o EstatisticaJogadorController -->
         <form th:action="@{/estatisticas/salvar}" method="post" class="row g-2 mb-4 align-items-end">
-            <!-- ID da partida em campo oculto -->
             <input type="hidden" name="partidaId" th:value="${partida.id}" />
 
             <div class="col-md-3">
@@ -71,6 +82,7 @@
                         <option value="Phoenix">Phoenix</option>
                         <option value="Raze">Raze</option>
                         <option value="Reyna">Reyna</option>
+                        <option value="Waylay">Waylay</option>
                         <option value="Yoru">Yoru</option>
                     </optgroup>
 
@@ -81,6 +93,7 @@
                         <option value="KAY/O">KAY/O</option>
                         <option value="Skye">Skye</option>
                         <option value="Sova">Sova</option>
+                        <option value="Tejo">Tejo</option>
                     </optgroup>
 
                     <optgroup label="Controladores">
@@ -88,6 +101,7 @@
                         <option value="Brimstone">Brimstone</option>
                         <option value="Clove">Clove</option>
                         <option value="Harbor">Harbor</option>
+                        <option value="Miks">Miks</option>
                         <option value="Omen">Omen</option>
                         <option value="Viper">Viper</option>
                     </optgroup>
@@ -98,6 +112,7 @@
                         <option value="Deadlock">Deadlock</option>
                         <option value="Killjoy">Killjoy</option>
                         <option value="Sage">Sage</option>
+                        <option value="Veto">Veto</option>
                         <option value="Vyse">Vyse</option>
                     </optgroup>
                 </select>
@@ -129,6 +144,7 @@
                     <th class="text-center">Kills</th>
                     <th class="text-center">Deaths</th>
                     <th class="text-center">Assists</th>
+                    <th class="text-center">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -138,9 +154,14 @@
                     <td class="text-center text-success fw-bold" th:text="${est.kills}">18</td>
                     <td class="text-center text-danger fw-bold" th:text="${est.deaths}">10</td>
                     <td class="text-center text-warning fw-bold" th:text="${est.assists}">12</td>
+                    <td class="text-center">
+                        <a th:href="@{/estatisticas/deletar/{id}(id=${est.id}, partidaId=${partida.id})}"
+                           class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Tem certeza que deseja remover esta estatística?')">Excluir</a>
+                    </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(partida.estatisticas)}">
-                    <td colspan="5" class="text-center text-white-50">Nenhum jogador adicionado a esta partida.</td>
+                    <td colspan="6" class="text-center text-white-50">Nenhum jogador adicionado a esta partida.</td>
                 </tr>
                 </tbody>
             </table>
@@ -151,16 +172,23 @@
     <div class="card p-4">
         <h3 class="mb-3 text-val-red">Histórico Round a Round</h3>
 
+        <!-- Alerta de erro de Round duplicado -->
+        <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert" th:if="${erroRound}">
+            <span th:text="${erroRound}"></span>
+            <button type="button" class="btn-close" onclick="this.closest('.alert').remove()" aria-label="Close"></button>
+        </div>
+
         <!-- Formulário para o RoundController -->
         <form th:action="@{/rounds/salvar}" method="post" class="row g-2 mb-4 align-items-end">
             <!-- ID da partida em campo oculto -->
             <input type="hidden" name="partidaId" th:value="${partida.id}" />
 
-            <div class="col-md-2">
-                <label class="form-label small fw-bold">Nº Round</label>
+            <div class="col-md-1">
+                <label class="form-label small fw-bold">Nº</label>
                 <input type="number" name="numeroRound" class="form-control" min="1" placeholder="1" required />
             </div>
-            <div class="col-md-3">
+
+            <div class="col-md-2">
                 <label class="form-label small fw-bold">Lado</label>
                 <select name="lado" class="form-select" required>
                     <option value="" disabled selected>Selecione...</option>
@@ -168,7 +196,8 @@
                     <option value="Defesa">Defesa</option>
                 </select>
             </div>
-            <div class="col-md-3">
+
+            <div class="col-md-2">
                 <label class="form-label small fw-bold">Vencedor</label>
                 <select name="vencedor" class="form-select" required>
                     <option value="" disabled selected>Selecione...</option>
@@ -176,9 +205,10 @@
                     <option value="Oponente">Oponente</option>
                 </select>
             </div>
+
             <div class="col-md-3">
-                <label class="form-label small fw-bold">Tipo de Compra</label>
-                <select name="tipoCompra" class="form-select" required>
+                <label class="form-label small fw-bold">Nossa Economia</label>
+                <select name="economiaNossa" class="form-select" required>
                     <option value="" disabled selected>Selecione...</option>
                     <option value="Pistol">Pistol</option>
                     <option value="Eco">Eco</option>
@@ -186,6 +216,18 @@
                     <option value="Armado">Armado (Full Buy)</option>
                 </select>
             </div>
+
+            <div class="col-md-3">
+                <label class="form-label small fw-bold">Economia Oponente</label>
+                <select name="economiaOponente" class="form-select" required>
+                    <option value="" disabled selected>Selecione...</option>
+                    <option value="Pistol">Pistol</option>
+                    <option value="Eco">Eco</option>
+                    <option value="Semi-Eco">Semi-Eco / Force</option>
+                    <option value="Armado">Armado (Full Buy)</option>
+                </select>
+            </div>
+
             <div class="col-md-1">
                 <button type="submit" class="btn btn-success w-100">+</button>
             </div>
@@ -199,7 +241,9 @@
                     <th class="text-center">#</th>
                     <th>Lado</th>
                     <th>Vencedor</th>
-                    <th>Tipo de Compra</th>
+                    <th>Nossa Economia</th>
+                    <th>Economia Oponente</th>
+                    <th class="text-center">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -207,13 +251,19 @@
                     <td class="text-center fw-bold" th:text="${r.numeroRound}">1</td>
                     <td th:text="${r.lado}">Ataque</td>
                     <td>
-                            <span th:classappend="${r.vencedor == 'Nosso Time'} ? 'badge bg-success' : 'badge bg-danger'"
-                                  th:text="${r.vencedor}">Nosso Time</span>
+                        <span th:classappend="${r.vencedor == 'Nosso Time'} ? 'badge bg-success' : 'badge bg-danger'"
+                              th:text="${r.vencedor}">Nosso Time</span>
                     </td>
-                    <td th:text="${r.tipoCompra}">Pistol</td>
+                    <td th:text="${r.economiaNossa}">Pistol</td>
+                    <td th:text="${r.economiaOponente}">Eco</td>
+                    <td class="text-center">
+                        <a th:href="@{/rounds/deletar/{id}(id=${r.id}, partidaId=${partida.id})}"
+                           class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Tem certeza que deseja remover este round?')">Excluir</a>
+                    </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(partida.rounds)}">
-                    <td colspan="4" class="text-center text-white-50">Nenhum round registrado.</td>
+                    <td colspan="6" class="text-center text-white-50">Nenhum round registrado.</td>
                 </tr>
                 </tbody>
             </table>
@@ -222,5 +272,7 @@
 
 </div>
 
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

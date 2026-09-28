@@ -63,9 +63,7 @@ nav.navbar {
     color: var(--val-text-muted) !important;
 }
 
-/* ==========================================================================
-   CORREÇÃO DE TABELAS - TEMA ESCURO VALORANT
-   ========================================================================== */
+/* Tabelas */
 
 .table {
     --bs-table-bg: #18222c !important;

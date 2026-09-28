@@ -15,6 +15,10 @@ public class EstatisticaJogadorService {
         this.estatisticaRepository = estatisticaRepository;
     }
 
+    public boolean existeJogadorNaPartida(Long partidaId, Long jogadorId) {
+        return estatisticaRepository.existsByPartidaIdAndJogadorId(partidaId, jogadorId);
+    }
+
     public EstatisticaJogador salvar(EstatisticaJogador estatistica) {
         return estatisticaRepository.save(estatistica);
     }

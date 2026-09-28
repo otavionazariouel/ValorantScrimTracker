@@ -1,5 +1,6 @@
 package uel.br.valorantscrimtracker.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uel.br.valorantscrimtracker.model.Partida;
 import uel.br.valorantscrimtracker.repository.PartidaRepository;
@@ -19,8 +20,8 @@ public class PartidaService {
         return partidaRepository.save(partida);
     }
 
-    public List<Partida> listarTodas() {
-        return partidaRepository.findAll();
+    public List<Partida> listarTodas(Sort sort) {
+        return partidaRepository.findAll(sort);
     }
 
     public Partida buscarPorId(Long id) {
@@ -28,16 +29,12 @@ public class PartidaService {
                 .orElseThrow(() -> new RuntimeException("Partida não encontrada com ID: " + id));
     }
 
-    public List<Partida> buscarPorOponente(String oponente) {
-        return partidaRepository.findByOponenteContainingIgnoreCase(oponente);
-    }
-
-    public List<Partida> buscarPorMapa(String mapa) {
-        return partidaRepository.findByMapaContainingIgnoreCase(mapa);
+    public List<Partida> buscarPorOponenteOuMapa(String termo, Sort sort) {
+        return partidaRepository.findByOponenteContainingIgnoreCaseOrMapaContainingIgnoreCase(termo, termo, sort);
     }
 
     public void deletarPorId(Long id) {
-        Partida partida = buscarPorId(id); // Se não encontrar, lança a exceção "Partida não encontrada"
+        Partida partida = buscarPorId(id);
         partidaRepository.delete(partida);
     }
 }

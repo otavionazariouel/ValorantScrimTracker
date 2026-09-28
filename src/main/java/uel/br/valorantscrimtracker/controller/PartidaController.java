@@ -1,6 +1,7 @@
 package uel.br.valorantscrimtracker.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,22 +26,25 @@ public class PartidaController {
     }
 
     @GetMapping
-    public String listarPartidas(@RequestParam(required = false) String oponente,
-                                 @RequestParam(required = false) String mapa,
+    public String listarPartidas(@RequestParam(required = false) String busca,
+                                 @RequestParam(required = false, defaultValue = "dataPartida") String campoOrdenacao,
+                                 @RequestParam(required = false, defaultValue = "desc") String direcao,
                                  Model model) {
+
+        Sort sort = direcao.equalsIgnoreCase("asc") ? Sort.by(campoOrdenacao).ascending() : Sort.by(campoOrdenacao).descending();
+
         List<Partida> partidas;
 
-        if (oponente != null && !oponente.isBlank()) {
-            partidas = partidaService.buscarPorOponente(oponente);
-        } else if (mapa != null && !mapa.isBlank()) {
-            partidas = partidaService.buscarPorMapa(mapa);
+        if (busca != null && !busca.trim().isEmpty()) {
+            partidas = partidaService.buscarPorOponenteOuMapa(busca, sort);
         } else {
-            partidas = partidaService.listarTodas();
+            partidas = partidaService.listarTodas(sort);
         }
 
         model.addAttribute("partidas", partidas);
-        model.addAttribute("oponenteFiltro", oponente);
-        model.addAttribute("mapaFiltro", mapa);
+        model.addAttribute("busca", busca);
+        model.addAttribute("ordemInversa", direcao.equalsIgnoreCase("asc") ? "desc" : "asc");
+
         return "partidas/lista";
     }
 
@@ -51,15 +55,14 @@ public class PartidaController {
     }
 
     @PostMapping("/salvar")
-    public String salvarPartida(@Valid @ModelAttribute("partida") Partida partida,
-                                BindingResult result,
-                                Model model,
-                                RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            return "partidas/formulario";
-        }
+    public String salvarPartida(@ModelAttribute Partida partida, RedirectAttributes redirectAttributes) {
+        boolean isEdicao = partida.getId() != null;
+
         partidaService.salvar(partida);
-        redirectAttributes.addFlashAttribute("mensagemSucesso", "Partida salva com sucesso!");
+
+        String mensagem = isEdicao ? "Partida atualizada com sucesso!" : "Partida cadastrada com sucesso!";
+        redirectAttributes.addFlashAttribute("sucesso", mensagem);
+
         return "redirect:/partidas";
     }
 
@@ -74,9 +77,12 @@ public class PartidaController {
     @GetMapping("/deletar/{id}")
     public String deletarPartida(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         partidaService.deletarPorId(id);
-        redirectAttributes.addFlashAttribute("mensagemSucesso", "Partida removida com sucesso!");
+
+        redirectAttributes.addFlashAttribute("sucesso", "Partida removida com sucesso!");
+
         return "redirect:/partidas";
     }
+
     @GetMapping("/editar/{id}")
     public String exibirFormularioEdicao(@PathVariable Long id, Model model) {
         Partida partida = partidaService.buscarPorId(id);

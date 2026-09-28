@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "tb_rounds")
+@Table(name = "tb_rounds", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"partida_id", "numeroRound"})
+})
 @Data
 public class Round {
 
@@ -20,5 +22,6 @@ public class Round {
     private Integer numeroRound;
     private String lado;
     private String vencedor;
-    private String tipoCompra;
+    private String economiaNossa;
+    private String economiaOponente;
 }

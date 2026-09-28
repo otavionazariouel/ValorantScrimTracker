@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "tb_estatisticas")
+@Table(name = "tb_estatisticas", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"partida_id", "jogador_id"})
+})
 @Data
 public class EstatisticaJogador {
 

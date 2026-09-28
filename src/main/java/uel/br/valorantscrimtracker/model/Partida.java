@@ -29,9 +29,11 @@ public class Partida {
 
     // Relacionamento 1:N
     @OneToMany(mappedBy = "partida", cascade = CascadeType.ALL)
+    @OrderBy("numeroRound ASC")
     private List<Round> rounds;
 
     // Relacionamento 1:N
     @OneToMany(mappedBy = "partida", cascade = CascadeType.ALL)
+    @OrderBy("kills DESC")
     private List<EstatisticaJogador> estatisticas;
 }

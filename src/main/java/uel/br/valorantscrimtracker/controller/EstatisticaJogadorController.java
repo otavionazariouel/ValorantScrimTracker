@@ -6,6 +6,7 @@ import uel.br.valorantscrimtracker.model.EstatisticaJogador;
 import uel.br.valorantscrimtracker.model.Partida;
 import uel.br.valorantscrimtracker.service.EstatisticaJogadorService;
 import uel.br.valorantscrimtracker.service.PartidaService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/estatisticas")
@@ -20,12 +21,30 @@ public class EstatisticaJogadorController {
     }
 
     @PostMapping("/salvar")
-    public String salvarEstatistica(@ModelAttribute EstatisticaJogador estatistica, @RequestParam Long partidaId) {
-        Partida partida = partidaService.buscarPorId(partidaId);
+    public String salvarEstatistica(@ModelAttribute EstatisticaJogador estatistica,
+                                    @RequestParam Long partidaId,
+                                    RedirectAttributes redirectAttributes) {
+
+        if (estatisticaService.existeJogadorNaPartida(partidaId, estatistica.getJogador().getId())) {
+            redirectAttributes.addFlashAttribute("erroEstatistica",
+                    "Este jogador já possui estatísticas cadastradas nesta partida!");
+            return "redirect:/partidas/detalhes/" + partidaId;
+        }
+
+        Partida partida = new Partida();
+        partida.setId(partidaId);
         estatistica.setPartida(partida);
+
         estatisticaService.salvar(estatistica);
 
-        // Redireciona de volta para os detalhes da partida
+        return "redirect:/partidas/detalhes/" + partidaId;
+    }
+
+    @GetMapping("/deletar/{id}")
+    public String deletarEstatistica(@PathVariable Long id, @RequestParam Long partidaId, RedirectAttributes redirectAttributes) {
+        estatisticaService.deletarPorId(id);
+
+        redirectAttributes.addFlashAttribute("sucesso", "Estatística removida com sucesso!");
         return "redirect:/partidas/detalhes/" + partidaId;
     }
 }

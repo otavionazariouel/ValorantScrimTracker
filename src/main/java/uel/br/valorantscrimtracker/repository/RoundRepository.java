@@ -6,4 +6,5 @@ import uel.br.valorantscrimtracker.model.Round;
 
 @Repository
 public interface RoundRepository extends JpaRepository<Round, Long> {
+    boolean existsByPartidaIdAndNumeroRound(Long partidaId, Integer numeroRound);
 }

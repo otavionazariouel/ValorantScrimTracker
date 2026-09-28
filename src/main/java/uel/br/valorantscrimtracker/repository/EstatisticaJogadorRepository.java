@@ -6,4 +6,5 @@ import uel.br.valorantscrimtracker.model.EstatisticaJogador;
 
 @Repository
 public interface EstatisticaJogadorRepository extends JpaRepository<EstatisticaJogador, Long> {
+    boolean existsByPartidaIdAndJogadorId(Long partidaId, Long jogadorId);
 }
